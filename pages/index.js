@@ -19,7 +19,7 @@ const Index = () => {
               mx: "auto",
             }}
           >
-            Hello World.
+            Under construction.
           </Text>
         </Box>
       </Box>
