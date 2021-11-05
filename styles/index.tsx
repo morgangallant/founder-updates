@@ -1,6 +1,7 @@
 /* Written by Jake Runzer (@jakerunzer). Used with permission. */
 
 import { system } from "@theme-ui/presets";
+import { Theme } from "theme-ui";
 
 const heading = {
   fontFamily: "heading",
@@ -69,7 +70,7 @@ const baseButton = {
 const darkColor = "#171717";
 const lightColor = "white";
 
-const theme = {
+const theme: Theme = {
   ...system,
   colors: {
     text: darkColor,

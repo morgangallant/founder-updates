@@ -10,13 +10,18 @@
   },
   "dependencies": {
     "@theme-ui/presets": "^0.12.0",
+    "@usedapp/core": "^0.5.4",
     "next": "12.0.1",
+    "next-seo": "^4.28.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-feather": "^2.0.9",
     "theme-ui": "^0.12.0"
   },
   "devDependencies": {
+    "@types/react": "^17.0.34",
     "eslint": "7.32.0",
-    "eslint-config-next": "11.1.0"
+    "eslint-config-next": "11.1.0",
+    "typescript": "^4.4.4"
   }
 }
