@@ -174,12 +174,11 @@ const Root: React.FC = () => {
               <Text sx={{ fontSize: 3, py: 3, display: "inline-block" }}>
                 Get started by connecting your wallet (top right hand corner of
                 the page), which will be used to store all of your writing. Once
-                you&apos;ve connected your wallet, you can create your first
-                blog, and we&apos;ll send you an NFT to celebrate! This NFT
-                verifies that you&apos;re the true, rightful owner of your blog.
-                Each post you make within a blog is minted as its own NFT, and
-                can be optionally auctioned off to supporters who wish to
-                support your journey.
+                you've connected your wallet, you can create your first blog,
+                and we'll send you an NFT to celebrate! This NFT verifies that
+                you're the true, rightful owner of your blog. Each post you make
+                within a blog is minted as its own NFT, and can be optionally
+                auctioned off to supporters who wish to support your journey.
               </Text>
             </Box>
           )}
