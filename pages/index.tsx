@@ -12,113 +12,8 @@ import {
 } from "theme-ui";
 import Layout from "../components/layout";
 import Link from "../components/link";
-import { useEthers, useEtherBalance } from "@usedapp/core";
-import { formatEther } from "@ethersproject/units";
-import { ThirdwebSDK, CollectionMetadata, NFTMetadata } from "@3rdweb/sdk";
-
-const Home = () => {
-  const { account, library } = useEthers();
-  const etherBalance = useEtherBalance(account);
-  const [minted, setMinted] = React.useState<CollectionMetadata[]>([]);
-
-  React.useEffect(() => {
-    const getter = async () => {
-      if (!library) {
-        return;
-      }
-      const sdk = new ThirdwebSDK(library.getSigner());
-      const module = sdk.getCollectionModule(
-        process.env.NEXT_PUBLIC_NFT_COLLECTION_MODULE_ADDRESS as string
-      );
-      setMinted((await module.getAll()) as CollectionMetadata[]);
-      console.log(minted);
-    };
-    getter();
-  }, [library]);
-
-  const mint = async () => {
-    await fetch("/api/mint", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ account }),
-    });
-    console.log("Minted, refresh the page.");
-  };
-
-  return (
-    <Layout>
-      <Box>
-        {account ? (
-          <Box sx={{ py: 5 }}>
-            <Text
-              sx={{
-                fontSize: 3,
-                maxWidth: "32rem",
-                mt: 0,
-                mb: 4,
-                mx: "auto",
-              }}
-            >
-              {account && <p>Account: {account}</p>}
-              {etherBalance && <p>Balance: {formatEther(etherBalance)}</p>}
-            </Text>
-            <Text>So far, the following NFT collections have been minted:</Text>
-            <ul>
-              {minted.map((minted, i) => (
-                <li key={i}>
-                  <p>
-                    {minted.metadata.name} ({minted.metadata.description})
-                  </p>
-                  <p>Content: '{minted.metadata.properties["raw"]}'</p>
-                </li>
-              ))}
-            </ul>
-          </Box>
-        ) : (
-          <Text>Please connect your wallet to get started.</Text>
-        )}
-      </Box>
-    </Layout>
-  );
-};
-
-const Index = () => {
-  return (
-    <Layout>
-      <Box>
-        <Box sx={{ py: 5, textAlign: "center" }}>
-          <Heading sx={{ mb: 3 }}>The future is finally here.</Heading>
-
-          <Text
-            sx={{
-              fontSize: 3,
-              maxWidth: "32rem",
-              mt: 0,
-              mb: 4,
-              mx: "auto",
-            }}
-          >
-            Operand is a next-generation personal virtual assistant straight out
-            of science fiction. We believe that everyone should have a proactive
-            digital assistant working on their behalf 24/7.
-          </Text>
-
-          <Box>
-            <Link
-              href="https://operand.ai"
-              variant="button"
-              sx={{ width: "auto", py: 2, mt: 4 }}
-            >
-              Get Beta Access
-            </Link>
-          </Box>
-        </Box>
-      </Box>
-    </Layout>
-  );
-};
+import { useEthers } from "@usedapp/core";
+import { ThirdwebSDK, NFTMetadata } from "@3rdweb/sdk";
 
 /**
  * A section on the website.
@@ -144,11 +39,8 @@ const Root: React.FC = () => {
   const [blogName, setBlogName] = React.useState("");
   const [blogDescription, setBlogDescription] = React.useState("");
 
-  // Get the address of the buildr NFT contract.
-  const buildrAddress = process.env.NEXT_PUBLIC_BUILDR_ADDRESS;
-
   // Checks if we are able to mint / perform operations.
-  const ready = account && library && buildrAddress;
+  const ready = account && library;
 
   // Get all the blogs that this user owns.
   React.useEffect(() => {
@@ -157,12 +49,12 @@ const Root: React.FC = () => {
         return;
       }
       const sdk = new ThirdwebSDK(library.getSigner());
-      const module = sdk.getNFTModule(buildrAddress);
+      const module = sdk.getNFTModule(process.env.NEXT_PUBLIC_BUILDR_ADDRESS);
       let all = await module.getAllWithOwner();
       setOwned(all.map((x) => x.metadata));
     };
     getter();
-  }, [account, library, buildrAddress]);
+  }, [account, library]);
 
   // Mint a new blog for the active user.
   const mintBlog = async (name: string, description: string) => {
@@ -172,7 +64,7 @@ const Root: React.FC = () => {
     const sdk = new ThirdwebSDK(library.getSigner());
     // TODO: Create the collection which stores all the posts for this collection.
     // Same name, description is `Originally created by ${address}.`.
-    const module = sdk.getNFTModule(buildrAddress);
+    const module = sdk.getNFTModule(process.env.NEXT_PUBLIC_BUILDR_ADDRESS);
     let meta = await module.mint({
       name: name,
       description: description,
