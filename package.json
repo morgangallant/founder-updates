@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@3rdweb/sdk": "^1.12.0",
     "@theme-ui/presets": "^0.12.0",
     "@usedapp/core": "^0.5.4",
+    "bun-framework-next": "^12.0.1",
     "next": "12.0.1",
     "next-seo": "^4.28.1",
     "react": "17.0.2",
